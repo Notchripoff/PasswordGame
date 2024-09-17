@@ -1,0 +1,241 @@
+
+<html>
+<head>
+    <title>The Password Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #fdf6e3;
+            text-align: center;
+            padding: 50px;
+            position: relative;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .password-container, .congrats, .credits {
+            display: none;
+        }
+        .password-container.active, .congrats.active, .credits.active {
+            display: block;
+        }
+        .password-container {
+            display: inline-block;
+            text-align: left;
+            position: relative;
+        }
+        .password-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .password-container input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .password-container .char-count {
+            position: absolute;
+            right: 20px;
+            top: 105px;
+            font-size: 1.2em;
+        }
+        .rule {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .rule i {
+            margin-right: 10px;
+        }
+        .rule.error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .rule.success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .hidden {
+            display: none;
+        }
+        .congrats {
+            font-size: 2em;
+            color: #155724;
+        }
+        .credits {
+            font-size: 1.5em;
+            color: #333;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button.credits {
+            background-color: #007bff;
+            color: white;
+        }
+        .button.back {
+            background-color: #28a745;
+            color: white;
+        }
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-left">notchripoff</div>
+    <h1>✶ The Password Game</h1>
+    <div class="password-container active" id="passwordContainer">
+        <label for="password">Please choose a password</label>
+        <input type="text" id="password" oninput="validatePassword()">
+        <span class="char-count" id="charCount">0</span>
+        <div class="rule error" id="rule1">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 1</strong><br>
+                Your password must be at least 5 characters.
+            </div>
+        </div>
+        <div class="rule error" id="rule2">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 2</strong><br>
+                Your password must include a number.
+            </div>
+        </div>
+        <div class="rule error" id="rule3">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 3</strong><br>
+                Your password must include an uppercase letter.
+            </div>
+        </div>
+        <div class="rule error hidden" id="rule4">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 4</strong><br>
+                Your password must include a special character.
+            </div>
+        </div>
+        <div class="rule error hidden" id="rule5">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 5</strong><br>
+                Your password must not include any spaces.
+            </div>
+        </div>
+        <div class="rule error hidden" id="rule6">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 6</strong><br>
+                Your password must include a lowercase letter.
+            </div>
+        </div>
+        <div class="rule error hidden" id="rule7">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 7</strong><br>
+                Your password must be at least 10 characters long.
+            </div>
+        </div>
+        <div class="rule error hidden" id="rule8">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 8</strong><br>
+                Your password must not include any repeating characters.
+            </div>
+        </div>
+        <div class="rule error hidden" id="rule9">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 9</strong><br>
+                Your password must include at least one symbol.
+            </div>
+        </div>
+        <div class="rule error hidden" id="rule10">
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Rule 10</strong><br>
+                Your password must not include any dictionary words.
+            </div>
+        </div>
+    </div>
+    <div class="congrats" id="congrats">
+        Congrat's you're not dead trying this :D
+        <button class="button back" onclick="showGame()">Back</button>
+    </div>
+    <div class="credits" id="credits">
+        Made by Notchripoff
+        <button class="button back" onclick="showGame()">Back</button>
+    </div>
+    <button class="button credits" onclick="showCredits()">Credits</button>
+
+    <script>
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const charCount = document.getElementById('charCount');
+            const rules = [
+                { id: 'rule1', test: password.length >= 5 },
+                { id: 'rule2', test: /\d/.test(password) },
+                { id: 'rule3', test: /[A-Z]/.test(password) },
+                { id: 'rule4', test: /[!@#$%^&*(),.?":{}|<>]/.test(password) },
+                { id: 'rule5', test: !/\s/.test(password) },
+                { id: 'rule6', test: /[a-z]/.test(password) },
+                { id: 'rule7', test: password.length >= 10 },
+                { id: 'rule8', test: !/(.)\1/.test(password) },
+                { id: 'rule9', test: /[!@#$%^&*]/.test(password) },
+                { id: 'rule10', test: !/\b\w+\b/.test(password) }
+            ];
+
+            charCount.textContent = password.length;
+
+            let allRulesPassed = true;
+
+            rules.forEach((rule, index) => {
+                const ruleElement = document.getElementById(rule.id);
+                if (rule.test) {
+                    ruleElement.classList.add('hidden');
+                } else {
+                    ruleElement.classList.remove('hidden');
+                    allRulesPassed = false;
+                }
+            });
+
+            if (allRulesPassed) {
+                document.getElementById('passwordContainer').classList.remove('active');
+                document.getElementById('congrats').classList.add('active');
+            }
+        }
+
+        function showCredits() {
+            document.getElementById('passwordContainer').classList.remove('active');
+            document.getElementById('congrats').classList.remove('active');
+            document.getElementById('credits').classList.add('active');
+        }
+
+        function showGame() {
+            document.getElementById('credits').classList.remove('active');
+            document.getElementById('congrats').classList.remove('active');
+            document.getElementById('passwordContainer').classList.add('active');
+        }
+    </script>
+</body>
+</html>
