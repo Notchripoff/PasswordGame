@@ -170,14 +170,7 @@
                 Your password must include at least one symbol.
             </div>
         </div>
-        <div class="rule error hidden" id="rule10">
-            <i class="fas fa-times-circle"></i>
-            <div>
-                <strong>Rule 10</strong><br>
-                Your password must not include any dictionary words.
-            </div>
-        </div>
-    </div>
+
     <div class="congrats" id="congrats">
         Congrat's you're not dead trying this :D
         <button class="button back" onclick="showGame()">Back</button>
@@ -202,8 +195,7 @@
                 { id: 'rule7', test: password.length >= 10 },
                 { id: 'rule8', test: !/(.)\1/.test(password) },
                 { id: 'rule9', test: /[!@#$%^&*]/.test(password) },
-                { id: 'rule10', test: !/\b\w+\b/.test(password) }
-            ];
+          ];
 
             charCount.textContent = password.length;
 
